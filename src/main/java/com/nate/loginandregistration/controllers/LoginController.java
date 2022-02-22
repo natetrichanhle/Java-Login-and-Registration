@@ -1,10 +1,14 @@
 package com.nate.loginandregistration.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.nate.loginandregistration.models.Book;
 import com.nate.loginandregistration.models.LoginUser;
 import com.nate.loginandregistration.models.User;
+import com.nate.loginandregistration.services.BookService;
 import com.nate.loginandregistration.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,9 @@ public class LoginController {
     
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BookService bookService;
 
     // Login
     @GetMapping("/")
@@ -40,7 +47,7 @@ public class LoginController {
             return "index.jsp";
         } else {
             session.setAttribute("user_id", newUser.getId());
-            return "redirect:/home";
+            return "redirect:/books";
         }
     }
 
@@ -53,25 +60,24 @@ public class LoginController {
             return "index.jsp";
         } else {
             session.setAttribute("user_id", user.getId());
-            return "redirect:/home";
+            return "redirect:/books";
         }
     }
 
     // --- we are logged in at this point ---
 
     // home route
-    @GetMapping("/home")
-    public String home(HttpSession session, Model model){
-        // retrieve from the DB using session id
+    @GetMapping("/books")
+    public String books(HttpSession session, Model model){
         Long userId = (Long) session.getAttribute("user_id");
-        // check if userId is null
         if(userId == null){
             return "redirect:/";
         } else {
-            // go to the DB to retrieve the user using the id
-            User thisUser = userService.findOne(userId);
-            model.addAttribute("thisUser", thisUser);
-            return "home.jsp";
+            User thisLoggedInUser = userService.findOne(userId);
+            model.addAttribute("thisLoggedInUser",thisLoggedInUser);
+            List<Book> books = bookService.allBooks();
+            model.addAttribute("booksList", books);
+            return "books.jsp";
         }
     }
 

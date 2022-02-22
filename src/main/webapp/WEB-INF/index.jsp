@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Read Share</title>
     <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css"> <!-- change to match your file/naming structure -->
     <script src="/webjars/jquery/jquery.min.js"></script>
@@ -23,6 +23,8 @@
 		<!-- REGISTER A NEW USER  -->
 		<!-- bring in the newUser empty Object -->
 		<div class="login-reg-main border-round give-me-space-up-down">
+			<h1>Book Club</h1>
+			<p>A place for friends to share thoughts on books.</p>
 			<h3>Register:</h3>
 			<form:form action="/register" method="post" modelAttribute="newUser">
 				<div class="form-group">
